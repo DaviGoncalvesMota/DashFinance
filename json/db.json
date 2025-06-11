@@ -1,0 +1,22 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Product A",
+            "price": 29.99,
+            "category": "Electronics"
+        },
+        {
+            "id": 2,
+            "name": "Product B",
+            "price": 19.99,
+            "category": "Books"
+        },
+        {
+            "id": 3,
+            "name": "Product C",
+            "price": 49.99,
+            "category": "Home & Kitchen"
+        }
+    ]
+}
