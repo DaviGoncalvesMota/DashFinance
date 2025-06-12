@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import type { IProducts } from "../../interfaces/IProducts";
 import { useEffect, useState } from "react";
@@ -9,7 +8,7 @@ const Dashboard = () => {
   useEffect(() => {
     // Simulating an API call to fetch products
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:3000/products");
+      const response = await fetch("http://localhost:3001/products");
       const data: IProducts[] = await response.json();
       setProducts(data);
     };
@@ -18,15 +17,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        py: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
+    <>
       <h1>Dashboard</h1>
       <PieChart
         series={[
@@ -36,12 +27,14 @@ const Dashboard = () => {
               value: product.price,
               label: product.name,
             })),
+            highlightScope: { fade: "global", highlight: "item" },
+            faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
           },
         ]}
         width={200}
         height={200}
       />
-    </Box>
+    </>
   );
 };
 

@@ -1,9 +1,5 @@
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
 import { type Navigation } from '@toolpad/core/AppProvider';
+import { Dashboard, BarChart, TableChart, AttachMoney } from '@mui/icons-material';
 
 
 export const NAVIGATION: Navigation = [
@@ -14,40 +10,24 @@ export const NAVIGATION: Navigation = [
   {
     segment: 'dashboard',
     title: 'Dashboard',
-    icon: <DashboardIcon />,
+    icon: <Dashboard />,
   },
   {
     segment: 'table',
-    title: 'Table',
-    icon: <ShoppingCartIcon />,
+    title: 'Tabela',
+    icon: <TableChart />,
   },
   {
     kind: 'divider',
   },
   {
-    kind: 'header',
-    title: 'Analytics',
+    segment: 'about',
+    title: 'Sobre',
+    icon: <BarChart />,
   },
   {
-    segment: 'reports',
-    title: 'Reports',
-    icon: <BarChartIcon />,
-    children: [
-      {
-        segment: 'sales',
-        title: 'Sales',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'traffic',
-        title: 'Traffic',
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
+    segment: 'insertcosts',
+    title: 'Cadastro de Custos',
+    icon: <AttachMoney />,
   },
 ];

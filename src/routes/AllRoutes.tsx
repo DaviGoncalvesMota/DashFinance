@@ -6,12 +6,18 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import NotFound from "../pages/NotFound/NotFound";
 import App from "../App";
+import Table from "../pages/Table/Table";
+import Home from "../pages/Home/Home";
+import InsertCosts from "../pages/InsertCosts/InsertCosts";
 
 const AllRoutes = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route index element={<Home />} />
+          <Route path="/insertcosts" element={<InsertCosts />} />
+          <Route path="/table" element={<Table />} />
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />

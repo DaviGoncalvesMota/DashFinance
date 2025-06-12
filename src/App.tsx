@@ -1,5 +1,5 @@
 import { NAVIGATION } from "./data/navigation";
-import { createTheme } from "@mui/material";
+import { Box, createTheme } from "@mui/material";
 import { AppProvider, DashboardLayout } from "@toolpad/core";
 import { Outlet } from "react-router-dom";
 
@@ -24,7 +24,17 @@ const App = () => {
     <>
       <AppProvider navigation={NAVIGATION} theme={demoTheme}>
         <DashboardLayout>
-          <Outlet />
+          <Box
+            sx={{
+              py: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <Outlet />
+          </Box>
         </DashboardLayout>
       </AppProvider>
     </>
