@@ -3,20 +3,35 @@
         {
             "id": 1,
             "name": "Product A",
-            "price": 29.99,
-            "category": "Electronics"
+            "desc": "Descrição do Produto A",
+            "cost": 29.99,
+            "place": "Mercado Mix",
+            "payment": "Cartão de Crédito",
+            "constant": true,
+            "date": "2025-05-31",
+            "category": "Alimentação"
         },
         {
             "id": 2,
             "name": "Product B",
-            "price": 19.99,
-            "category": "Books"
+            "desc": "Descrição do Produto B",
+            "cost": 39.99,
+            "place": "Coop",
+            "payment": "Cartão de Débito",
+            "constant": false,
+            "date": "2024-11-20",
+            "category": "Contas"
         },
         {
             "id": 3,
             "name": "Product C",
-            "price": 49.99,
-            "category": "Home & Kitchen"
+            "desc": "Descrição do Produto C",
+            "cost": 49.99,
+            "place": "Hospital",
+            "payment": "Pix",
+            "constant": false,
+            "date": "2024-11-20",
+            "category": "Saúde"
         }
     ]
 }

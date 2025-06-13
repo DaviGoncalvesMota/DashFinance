@@ -24,7 +24,7 @@ const Dashboard = () => {
           {
             data: products.map((product) => ({
               id: product.id,
-              value: product.price,
+              value: product.cost,
               label: product.name,
             })),
             highlightScope: { fade: "global", highlight: "item" },
