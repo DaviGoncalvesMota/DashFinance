@@ -26,8 +26,8 @@ export const NAVIGATION: Navigation = [
     icon: <BarChart />,
   },
   {
-    segment: 'insertcosts',
-    title: 'Cadastro de Custos',
+    segment: 'insertmoves',
+    title: 'Cadastro',
     icon: <AttachMoney />,
   },
 ];

@@ -8,7 +8,7 @@ import NotFound from "../pages/NotFound/NotFound";
 import App from "../App";
 import Table from "../pages/Table/Table";
 import Home from "../pages/Home/Home";
-import InsertCosts from "../pages/InsertCosts/InsertCosts";
+import InsertFinanceMoves from "../pages/InsertFinanceMoves/InsertFinanceMovesCosts";
 
 const AllRoutes = () => {
   return (
@@ -16,7 +16,7 @@ const AllRoutes = () => {
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
-          <Route path="/insertcosts" element={<InsertCosts />} />
+          <Route path="/insertmoves" element={<InsertFinanceMoves />} />
           <Route path="/table" element={<Table />} />
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />

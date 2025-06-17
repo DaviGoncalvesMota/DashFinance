@@ -27,7 +27,6 @@ const App = () => {
           <Box
             sx={{
               py: 4,
-              display: "flex",
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",

@@ -5,7 +5,8 @@ export interface IProducts {
     cost: number;
     place: string;
     payment: string;
-    constant: boolean;
+    constant: string;
     date: string;
+    moveType: string;
     category: string;
 }

@@ -1,37 +1,64 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "Product A",
-            "desc": "Descrição do Produto A",
-            "cost": 29.99,
-            "place": "Mercado Mix",
-            "payment": "Cartão de Crédito",
-            "constant": true,
-            "date": "2025-05-31",
-            "category": "Alimentação"
-        },
-        {
-            "id": 2,
-            "name": "Product B",
-            "desc": "Descrição do Produto B",
-            "cost": 39.99,
-            "place": "Coop",
-            "payment": "Cartão de Débito",
-            "constant": false,
-            "date": "2024-11-20",
-            "category": "Contas"
-        },
-        {
-            "id": 3,
-            "name": "Product C",
-            "desc": "Descrição do Produto C",
-            "cost": 49.99,
-            "place": "Hospital",
-            "payment": "Pix",
-            "constant": false,
-            "date": "2024-11-20",
-            "category": "Saúde"
-        }
-    ]
+  "products": [
+    {
+      "id": "465e",
+      "name": "Escola Teste",
+      "desc": "Estudos ",
+      "cost": 500,
+      "place": "Escola",
+      "payment": "Pix",
+      "constant": "Sim",
+      "date": "09-11-2024",
+      "moveType": "Saída",
+      "category": "Contas"
+    },
+    {
+      "name": "Conta de Água",
+      "desc": "conta chata",
+      "cost": 250,
+      "place": "Casa",
+      "payment": "Cartão de Crédito",
+      "constant": "Sim",
+      "date": "12-02-2016",
+      "moveType": "Saída",
+      "category": "Contas",
+      "id": "e31f"
+    },
+    {
+      "name": "Netflix",
+      "desc": "Streaming",
+      "cost": 30,
+      "place": "Casa",
+      "payment": "Cartão de Crédito",
+      "constant": "Sim",
+      "date": "04-04-2000",
+      "moveType": "Saída",
+      "category": "Assinaturas",
+      "id": "d241"
+    },
+    {
+      "name": "Santa Helena",
+      "desc": "convenio",
+      "cost": 900,
+      "place": "Hospital",
+      "payment": "Cartão de Crédito",
+      "constant": "Não",
+      "date": "04-09-2013",
+      "moveType": "Saída",
+      "category": "Saúde",
+      "id": "1321"
+    },
+    {
+      "id": "b901",
+      "name": "Salário Davi",
+      "desc": "pagamento",
+      "cost": 1518,
+      "place": "empresa",
+      "payment": "Pix",
+      "constant": "Sim",
+      "date": "08-08-2025",
+      "moveType": "Entrada",
+      "category": "Contas"
+    }
+  ]
 }
