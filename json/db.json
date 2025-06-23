@@ -41,8 +41,8 @@
       "desc": "convenio",
       "cost": 900,
       "place": "Hospital",
-      "payment": "Cartão de Crédito",
-      "constant": "Não",
+      "payment": "Cartão de Débito",
+      "constant": "Sim",
       "date": "04-09-2013",
       "moveType": "Saída",
       "category": "Saúde",
@@ -57,6 +57,18 @@
       "payment": "Pix",
       "constant": "Sim",
       "date": "08-08-2025",
+      "moveType": "Entrada",
+      "category": "Contas"
+    },
+    {
+      "id": "3653",
+      "name": "salario katia",
+      "desc": "pagamento",
+      "cost": 1518,
+      "place": "Qualquer",
+      "payment": "Cartão de Crédito",
+      "constant": "Sim",
+      "date": "04-02-2025",
       "moveType": "Entrada",
       "category": "Contas"
     }

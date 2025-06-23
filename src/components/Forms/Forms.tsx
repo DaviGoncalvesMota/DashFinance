@@ -70,7 +70,7 @@ const Forms = ({
         fullWidth
       />
       <TextField
-        label="Custo"
+        label="Valor"
         value={cost}
         onChange={(e) => setCost(Number(e.target.value))}
         type="number"
