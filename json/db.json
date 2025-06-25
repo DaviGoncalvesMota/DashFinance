@@ -1,8 +1,7 @@
 {
   "products": [
     {
-      "id": "465e",
-      "name": "Escola Teste",
+      "name": "Escola",
       "desc": "Estudos ",
       "cost": 500,
       "place": "Escola",
@@ -10,7 +9,8 @@
       "constant": "Sim",
       "date": "09-11-2024",
       "moveType": "Saída",
-      "category": "Contas"
+      "category": "Contas",
+      "id": "465e"
     },
     {
       "name": "Conta de Água",
@@ -71,6 +71,17 @@
       "date": "04-02-2025",
       "moveType": "Entrada",
       "category": "Contas"
+    }
+  ],
+  "users": [
+    {
+      "name": "Davi",
+      "email": "davigmota@gmail.com",
+      "password": "Dd.2dDd.2",
+      "bio": "Desenvolvedor Full Stack",
+      "phone": "11953304291",
+      "avatar": "https://preview.redd.it/fbmk981sxr091.jpg?width=640&crop=smart&auto=webp&s=d470a9a066d6ce73fc87d3fe4beb7ecb7704b278",
+      "id": "1"
     }
   ]
 }

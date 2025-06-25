@@ -98,7 +98,7 @@ const Table = () => {
         </TableCell>
         <TableCell align="center">{item.category}</TableCell>
         <TableCell align="center">
-          <IconButton onClick={() => setDialog(<Dialog onClose={() => setDialog(undefined)} id={item.id} />)}>
+          <IconButton onClick={() => setDialog(<Dialog onClose={() => setDialog(undefined)} id={item.id} label="Produtos"/>)}>
             <Edit />
           </IconButton>
           <IconButton onClick={() => deleteItem(item.id)}>

@@ -15,6 +15,13 @@ const InsertCosts = () => {
   const [moveType, setMoveType] = useState("");
   const [category, setCategory] = useState("");
 
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userBio, setUserBio] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [avatar, setAvatar] = useState("");
+
   const insert = async () => {
     const data = {
       name,
@@ -93,6 +100,19 @@ const InsertCosts = () => {
                 setMoveType={setMoveType}
                 category={category}
                 setCategory={setCategory}
+                userName={userName}
+                setUserName={setUserName}
+                userEmail={userEmail}
+                setUserEmail={setUserEmail}
+                userPassword={userPassword}
+                setUserPassword={setUserPassword}
+                userBio={userBio}
+                setUserBio={setUserBio}
+                userPhone={userPhone}
+                setUserPhone={setUserPhone}
+                avatar={avatar}
+                setAvatar={setAvatar}
+                label="Produtos"
               />
               <Button variant="contained" color="primary" onClick={insert}>
                 Cadastrar

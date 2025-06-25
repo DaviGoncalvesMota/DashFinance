@@ -1,5 +1,5 @@
 import { type Navigation } from '@toolpad/core/AppProvider';
-import { Dashboard, BarChart, TableChart, AttachMoney } from '@mui/icons-material';
+import { Dashboard, BarChart, TableChart, AttachMoney, AccountCircle } from '@mui/icons-material';
 
 
 export const NAVIGATION: Navigation = [
@@ -27,7 +27,15 @@ export const NAVIGATION: Navigation = [
   },
   {
     segment: 'insertmoves',
-    title: 'Cadastro',
+    title: 'Movimentações',
     icon: <AttachMoney />,
   },
+  {
+    kind: 'divider',
+  },
+  {
+    segment: 'profile',
+    title: 'Perfil',
+    icon: <AccountCircle />,
+  }
 ];
