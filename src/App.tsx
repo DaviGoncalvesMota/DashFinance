@@ -1,4 +1,4 @@
-import { NAVIGATION } from "./data/navigation";
+import { getNavigation } from "./data/navigation";
 import { Box, createTheme } from "@mui/material";
 import { AppProvider, DashboardLayout } from "@toolpad/core";
 import { Outlet } from "react-router-dom";
@@ -20,9 +20,12 @@ const demoTheme = createTheme({
 });
 
 const App = () => {
+
+  const navigation = getNavigation();
+
   return (
     <>
-      <AppProvider navigation={NAVIGATION} theme={demoTheme}>
+      <AppProvider navigation={navigation} theme={demoTheme}>
         <DashboardLayout>
           <Box
             sx={{

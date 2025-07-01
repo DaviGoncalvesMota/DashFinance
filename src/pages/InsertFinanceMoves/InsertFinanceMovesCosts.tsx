@@ -3,8 +3,22 @@ import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import Forms from "../../components/Forms/Forms";
 import { useState } from "react";
 import type { Dayjs } from "dayjs";
+import { useNavigate, useParams } from "react-router-dom";
+
+export const isAuthenticated = () => {
+  const navigate = useNavigate();
+  if (!!localStorage.getItem("authUser")) {
+    navigate("/login");
+  };
+  return true
+};
 
 const InsertCosts = () => {
+
+  const params = useParams().id;
+
+  const userId = params
+  
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [cost, setCost] = useState<number>(0);
@@ -33,6 +47,7 @@ const InsertCosts = () => {
       date: date ? date.format("DD-MM-YYYY") : null,
       moveType,
       category,
+      userId
     };
 
     const res = await fetch("http://localhost:3001/products", {
@@ -112,6 +127,7 @@ const InsertCosts = () => {
                 setUserPhone={setUserPhone}
                 avatar={avatar}
                 setAvatar={setAvatar}
+                userId={userId}
                 label="Produtos"
               />
               <Button variant="contained" color="primary" onClick={insert}>

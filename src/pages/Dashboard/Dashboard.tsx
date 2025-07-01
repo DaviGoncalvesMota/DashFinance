@@ -2,14 +2,25 @@ import { useEffect, useMemo, useState } from "react";
 import { BarChart, LineChart, PieChart, RadarChart } from "@mui/x-charts";
 import type { IProducts } from "../../interfaces/IProducts";
 import { Box, Typography, useTheme, Paper } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+
+export const isAuthenticated = () => {
+  const navigate = useNavigate();
+  if (!!localStorage.getItem("authUser")) {
+    navigate("/login");
+  };
+  return true
+};
 
 const Dashboard = () => {
+
   const theme = useTheme();
   const [products, setProducts] = useState<IProducts[]>([]);
+  const params = useParams().id;
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:3001/products");
+      const response = await fetch("http://localhost:3001/products?userId=" + params);
       const data: IProducts[] = await response.json();
       setProducts(data);
     };

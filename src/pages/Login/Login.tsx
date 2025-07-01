@@ -1,41 +1,145 @@
+import { useEffect, useMemo, useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  IconButton,
+  CssBaseline,
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+
+import type { IUser } from "../../interfaces/IUsers";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
-  return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState<"light" | "dark">("light");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const authUser = localStorage.getItem("authUser");
+    if (authUser) {
+      navigate("/dashboard");
+    }
+  }, []);
+
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: mode,
+        },
+      }),
+    [mode]
   );
-}
+
+  const handleLogin = () => {
+    const verifyLogin = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/users?email=" + email + "&senha=" + password);
+        const data: IUser[] = await res.json();
+        if (data) {
+          localStorage.setItem("authUser", JSON.stringify(data[0].id));
+          navigate("/dashboard/" + data[0].id);
+        }
+        else {
+          alert("Usuário ou senha incorretos!");
+        }
+      }
+      catch (error) {
+        console.error("Erro:", error);
+      }
+    }
+
+    verifyLogin();
+
+  };
+
+  const toggleTheme = () => {
+    setMode((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 2,
+          backgroundColor: theme.palette.background.default,
+          position: "relative",
+        }}
+      >
+        {/* Botão de alternar tema */}
+        <IconButton
+          onClick={toggleTheme}
+          sx={{ position: "absolute", top: 16, right: 16 }}
+          color="inherit"
+        >
+          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+
+        <Card
+          sx={{
+            maxWidth: 400,
+            width: "100%",
+            p: 4,
+            borderRadius: 4,
+            boxShadow: 6,
+          }}
+        >
+          <Box sx={{ textAlign: "center", mb: 3 }}>
+            <Typography variant="h5" fontWeight={600}>
+              Bem-vindo
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Faça login para continuar
+            </Typography>
+          </Box>
+
+          <CardContent>
+            <TextField
+              fullWidth
+              label="Email"
+              margin="normal"
+              value={email || ""}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Senha"
+              type="password"
+              margin="normal"
+              value={password || ""}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3 }}
+              onClick={handleLogin}
+            >
+              Entrar
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
+    </ThemeProvider>
+  );
+};
 
 export default Login;

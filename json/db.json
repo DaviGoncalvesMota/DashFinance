@@ -10,7 +10,8 @@
       "date": "09-11-2024",
       "moveType": "Saída",
       "category": "Contas",
-      "id": "465e"
+      "id": "465e",
+      "userId": 1
     },
     {
       "name": "Conta de Água",
@@ -22,7 +23,8 @@
       "date": "12-02-2016",
       "moveType": "Saída",
       "category": "Contas",
-      "id": "e31f"
+      "id": "e31f",
+      "userId": 1
     },
     {
       "name": "Netflix",
@@ -34,7 +36,8 @@
       "date": "04-04-2000",
       "moveType": "Saída",
       "category": "Assinaturas",
-      "id": "d241"
+      "id": "d241",
+      "userId": 1
     },
     {
       "name": "Santa Helena",
@@ -46,7 +49,8 @@
       "date": "04-09-2013",
       "moveType": "Saída",
       "category": "Saúde",
-      "id": "1321"
+      "id": "1321",
+      "userId": 1
     },
     {
       "id": "b901",
@@ -58,7 +62,8 @@
       "constant": "Sim",
       "date": "08-08-2025",
       "moveType": "Entrada",
-      "category": "Contas"
+      "category": "Contas",
+      "userId": 1
     },
     {
       "id": "3653",
@@ -70,7 +75,8 @@
       "constant": "Sim",
       "date": "04-02-2025",
       "moveType": "Entrada",
-      "category": "Contas"
+      "category": "Contas",
+      "userId": 1
     }
   ],
   "users": [
@@ -81,7 +87,7 @@
       "bio": "Desenvolvedor Full Stack",
       "phone": "11953304291",
       "avatar": "https://preview.redd.it/fbmk981sxr091.jpg?width=640&crop=smart&auto=webp&s=d470a9a066d6ce73fc87d3fe4beb7ecb7704b278",
-      "id": "1"
+      "id": 1
     }
   ]
 }

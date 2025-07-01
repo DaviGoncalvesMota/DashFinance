@@ -9,4 +9,5 @@ export interface IProducts {
     date: string;
     moveType: string;
     category: string;
+    userId: string;
 }

@@ -6,7 +6,7 @@ const Home = () => {
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>Bem-Vindo ao DashFinance</h1>
       <p> a sua solução para controle financeiro</p>
-      <Link to="/dashboard">
+      <Link to="/dashboard/:id">
         <Button variant="contained">Ir para Dashboard</Button>
       </Link>
     </div>

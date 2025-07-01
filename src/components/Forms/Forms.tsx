@@ -41,6 +41,7 @@ interface IFormsProps {
   setUserPhone: (value: string) => void;
   avatar: string;
   setAvatar: (value: string) => void;
+  userId?: string;
   label: string;
 }
 
@@ -75,6 +76,7 @@ const Forms = ({
   setUserPhone,
   avatar,
   setAvatar,
+  userId,
   label,
 }: IFormsProps) => {
   // Function to verify if the label is "Usuários" or "Produtos"
@@ -136,6 +138,7 @@ const Forms = ({
     } else if (label === "Produtos") {
       return (
         <>
+          <input type="hidden" value={userId} />
           <TextField
             label="Nome"
             value={name}

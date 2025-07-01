@@ -10,14 +10,24 @@ import {
 import React, { useEffect, useState } from "react";
 import type { IUser } from "../../interfaces/IUsers";
 import Dialog from "../../components/Dialog/Dialog";
+import { useNavigate, useParams } from "react-router-dom";
+
+export const isAuthenticated = () => {
+  const navigate = useNavigate();
+  if (!!localStorage.getItem("authUser")) {
+    navigate("/login");
+  };
+  return true
+};
 
 const Profile = () => {
   const [user, setUser] = useState<IUser[]>([]);
   const [dialog, setDialog] = useState<React.ReactNode>();
+  const params = useParams().id;
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:3001/users");
+      const response = await fetch("http://localhost:3001/users?id=" + params);
       const data: IUser[] = await response.json();
       setUser(data);
     };
@@ -68,7 +78,7 @@ const Profile = () => {
                   {user.name}
                 </Typography>
                 <Typography color="text.secondary">{user.email}</Typography>
-                <Button onClick={() => setDialog(<Dialog onClose={() => setDialog(false)} label="Usuários" id={user.id}/>)} sx={{ mt: 2 }} variant="outlined">
+                <Button onClick={() => setDialog(<Dialog onClose={() => setDialog(false)} label="Usuários" id={user.id} />)} sx={{ mt: 2 }} variant="outlined">
                   Editar Perfil
                 </Button>
               </Box>

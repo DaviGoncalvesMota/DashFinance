@@ -20,6 +20,15 @@ import React, { useEffect, useMemo, useState } from "react";
 // Interfaces
 import type { IProducts } from "../../interfaces/IProducts";
 import { Delete, Edit } from "@mui/icons-material";
+import { useNavigate, useParams } from "react-router-dom";
+
+export const isAuthenticated = () => {
+  const navigate = useNavigate();
+  if (!!localStorage.getItem("authUser")) {
+    navigate("/login");
+  };
+  return true
+};
 
 const Table = () => {
   const [items, setItems] = useState<IProducts[]>([]);
@@ -27,10 +36,12 @@ const Table = () => {
   const [checkedCost, setCheckedCost] = useState(false);
   const [checkedReceive, setCheckedReceive] = useState(false);
 
+  const params = useParams().id;
+
   useEffect(() => {
     const fetchItens = async () => {
       try {
-        const res = await fetch("http://localhost:3001/products");
+        const res = await fetch("http://localhost:3001/products?userId=" + params);
         const data: IProducts[] = await res.json();
         setItems(data);
       } catch (error) {
@@ -98,7 +109,7 @@ const Table = () => {
         </TableCell>
         <TableCell align="center">{item.category}</TableCell>
         <TableCell align="center">
-          <IconButton onClick={() => setDialog(<Dialog onClose={() => setDialog(undefined)} id={item.id} label="Produtos"/>)}>
+          <IconButton onClick={() => setDialog(<Dialog onClose={() => setDialog(undefined)} id={item.id} label="Produtos" />)}>
             <Edit />
           </IconButton>
           <IconButton onClick={() => deleteItem(item.id)}>
