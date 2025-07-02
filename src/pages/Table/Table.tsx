@@ -22,15 +22,17 @@ import type { IProducts } from "../../interfaces/IProducts";
 import { Delete, Edit } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const isAuthenticated = () => {
-  const navigate = useNavigate();
-  if (!!localStorage.getItem("authUser")) {
-    navigate("/login");
-  };
-  return true
-};
-
 const Table = () => {
+  const IsAuthenticated = () => {
+    const navigate = useNavigate();
+    if (!localStorage.getItem("authUser")) {
+      navigate("/login");
+    }
+    return true;
+  };
+
+  IsAuthenticated();
+
   const [items, setItems] = useState<IProducts[]>([]);
   const [dialog, setDialog] = useState<React.ReactNode>();
   const [checkedCost, setCheckedCost] = useState(false);
@@ -41,7 +43,9 @@ const Table = () => {
   useEffect(() => {
     const fetchItens = async () => {
       try {
-        const res = await fetch("http://localhost:3001/products?userId=" + params);
+        const res = await fetch(
+          "http://localhost:3001/products?userId=" + params
+        );
         const data: IProducts[] = await res.json();
         setItems(data);
       } catch (error) {
@@ -49,7 +53,7 @@ const Table = () => {
       }
     };
     fetchItens();
-  }, []);
+  }, [params]);
 
   const deleteItem = async (id: string) => {
     try {
@@ -81,27 +85,52 @@ const Table = () => {
 
   const renderHeader = () => (
     <TableRow>
-      <TableCell align="left" sx={{ fontWeight: "bold" }}>Nome</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Descrição</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Custo</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Local</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Pagamento</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Constante</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Data</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Categoria</TableCell>
-      <TableCell align="center" sx={{ fontWeight: "bold" }}>Ações</TableCell>
+      <TableCell align="left" sx={{ fontWeight: "bold" }}>
+        Nome
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Descrição
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Custo
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Local
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Pagamento
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Constante
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Data
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Categoria
+      </TableCell>
+      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+        Ações
+      </TableCell>
     </TableRow>
   );
 
   const renderRows = (list: IProducts[]) =>
     list.map((item) => (
-      <TableRow key={item.id} hover sx={{ "&:hover": { backgroundColor: "#fafafa" } }}>
+      <TableRow
+        key={item.id}
+        hover
+        sx={{ "&:hover": { backgroundColor: "#fafafa" } }}
+      >
         <TableCell align="left">{item.name}</TableCell>
         <TableCell align="center">{item.desc}</TableCell>
         <TableCell align="center">R$ {item.cost}</TableCell>
         <TableCell align="center">{item.place}</TableCell>
         <TableCell align="center">{item.payment}</TableCell>
-        <TableCell align="center" sx={{ color: item.constant === "Sim" ? "green" : "red" }}>
+        <TableCell
+          align="center"
+          sx={{ color: item.constant === "Sim" ? "green" : "red" }}
+        >
           {item.constant}
         </TableCell>
         <TableCell align="center">
@@ -109,7 +138,17 @@ const Table = () => {
         </TableCell>
         <TableCell align="center">{item.category}</TableCell>
         <TableCell align="center">
-          <IconButton onClick={() => setDialog(<Dialog onClose={() => setDialog(undefined)} id={item.id} label="Produtos" />)}>
+          <IconButton
+            onClick={() =>
+              setDialog(
+                <Dialog
+                  onClose={() => setDialog(undefined)}
+                  id={item.id}
+                  label="Produtos"
+                />
+              )
+            }
+          >
             <Edit />
           </IconButton>
           <IconButton onClick={() => deleteItem(item.id)}>
@@ -124,13 +163,19 @@ const Table = () => {
       {dialog}
       <h1 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Tabelas</h1>
 
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
         <FormControlLabel
-          control={<Checkbox checked={checkedReceive} onChange={handleReceiveChange} />}
+          control={
+            <Checkbox checked={checkedReceive} onChange={handleReceiveChange} />
+          }
           label="Entrada"
         />
         <FormControlLabel
-          control={<Checkbox checked={checkedCost} onChange={handleCostChange} />}
+          control={
+            <Checkbox checked={checkedCost} onChange={handleCostChange} />
+          }
           label="Saída"
         />
       </Box>
@@ -140,7 +185,10 @@ const Table = () => {
       {checkedCost && (
         <>
           <h3>Saídas</h3>
-          <TableContainer component={Paper} sx={{ width: "90%", margin: "auto", borderRadius: 3, boxShadow: 3 }}>
+          <TableContainer
+            component={Paper}
+            sx={{ width: "90%", margin: "auto", borderRadius: 3, boxShadow: 3 }}
+          >
             <TableComponent>
               <TableHead>{renderHeader()}</TableHead>
               <TableBody>{renderRows(itemsSaida)}</TableBody>
@@ -154,7 +202,10 @@ const Table = () => {
       {checkedReceive && (
         <>
           <h3>Entradas</h3>
-          <TableContainer component={Paper} sx={{ width: "90%", margin: "auto", borderRadius: 3, boxShadow: 3 }}>
+          <TableContainer
+            component={Paper}
+            sx={{ width: "90%", margin: "auto", borderRadius: 3, boxShadow: 3 }}
+          >
             <TableComponent>
               <TableHead>{renderHeader()}</TableHead>
               <TableBody>{renderRows(itemsEntrada)}</TableBody>

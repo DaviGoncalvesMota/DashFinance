@@ -82,6 +82,32 @@ const Forms = ({
   // Function to verify if the label is "Usuários" or "Produtos"
   // and return the corresponding string.
   const verifyUsersOrProducts = () => {
+    const categoriasEntrada = [
+      "Salário",
+      "Freelance",
+      "Investimentos",
+      "Rendimentos",
+      "Venda de Itens",
+      "Reembolso",
+      "Outros",
+    ];
+
+    const categoriasSaida = [
+      "Alimentação",
+      "Moradia",
+      "Contas",
+      "Transporte",
+      "Saúde",
+      "Lazer",
+      "Assinaturas",
+      "Multas",
+      "Educação",
+      "Compras",
+      "Doações",
+      "Impostos",
+      "Outros",
+    ];
+
     if (label === "Usuários") {
       return (
         <>
@@ -218,15 +244,27 @@ const Forms = ({
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               label="Categoria"
+              disabled={!moveType}
             >
-              <MenuItem value="Alimentação"> Alimentação </MenuItem>
-              <MenuItem value="Moradia"> Moradia </MenuItem>
-              <MenuItem value="Contas"> Contas </MenuItem>
-              <MenuItem value="Transporte"> Transporte </MenuItem>
-              <MenuItem value="Saúde"> Saúde </MenuItem>
-              <MenuItem value="Lazer"> Lazer </MenuItem>
-              <MenuItem value="Assinaturas"> Assinaturas </MenuItem>
-              <MenuItem value="Multas"> Multas </MenuItem>
+              {!moveType && (
+                <MenuItem disabled value="">
+                  Selecione "Entrada" ou "Saída" primeiro
+                </MenuItem>
+              )}
+
+              {moveType === "Entrada" &&
+                categoriasEntrada.map((cat) => (
+                  <MenuItem key={cat} value={cat}>
+                    {cat}
+                  </MenuItem>
+                ))}
+
+              {moveType === "Saída" &&
+                categoriasSaida.map((cat) => (
+                  <MenuItem key={cat} value={cat}>
+                    {cat}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </>

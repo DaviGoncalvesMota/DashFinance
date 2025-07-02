@@ -12,15 +12,17 @@ import type { IUser } from "../../interfaces/IUsers";
 import Dialog from "../../components/Dialog/Dialog";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const isAuthenticated = () => {
-  const navigate = useNavigate();
-  if (!!localStorage.getItem("authUser")) {
-    navigate("/login");
-  };
-  return true
-};
-
 const Profile = () => {
+  const IsAuthenticated = () => {
+    const navigate = useNavigate();
+    if (!localStorage.getItem("authUser")) {
+      navigate("/login");
+    }
+    return true;
+  };
+
+  IsAuthenticated();
+
   const [user, setUser] = useState<IUser[]>([]);
   const [dialog, setDialog] = useState<React.ReactNode>();
   const params = useParams().id;
@@ -33,7 +35,7 @@ const Profile = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [params]);
 
   return (
     <>
@@ -78,7 +80,19 @@ const Profile = () => {
                   {user.name}
                 </Typography>
                 <Typography color="text.secondary">{user.email}</Typography>
-                <Button onClick={() => setDialog(<Dialog onClose={() => setDialog(false)} label="Usuários" id={user.id} />)} sx={{ mt: 2 }} variant="outlined">
+                <Button
+                  onClick={() =>
+                    setDialog(
+                      <Dialog
+                        onClose={() => setDialog(false)}
+                        label="Usuários"
+                        id={user.id}
+                      />
+                    )
+                  }
+                  sx={{ mt: 2 }}
+                  variant="outlined"
+                >
                   Editar Perfil
                 </Button>
               </Box>
@@ -98,6 +112,17 @@ const Profile = () => {
                     Telefone
                   </Typography>
                   <Typography variant="body2">{user.phone}</Typography>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{ mt: 2 }}
+                    onClick={() => {
+                      localStorage.removeItem("authUser");
+                      window.location.href = "/login";
+                    }}
+                  >
+                    Sair da Conta
+                  </Button>
                 </Box>
               </CardContent>
             </Card>

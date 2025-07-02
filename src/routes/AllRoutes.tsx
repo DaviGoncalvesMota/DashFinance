@@ -10,6 +10,7 @@ import Table from "../pages/Table/Table";
 import Home from "../pages/Home/Home";
 import InsertFinanceMoves from "../pages/InsertFinanceMoves/InsertFinanceMovesCosts";
 import PrivateRoutes from "../components/PrivateRoutes/PrivateRoutes";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 
 const AllRoutes = () => {
   return (
@@ -22,10 +23,11 @@ const AllRoutes = () => {
           <Route path="/about" element={<About />} />
           <Route path="/dashboard/:id" element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
           <Route path="/profile/:id" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
-          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

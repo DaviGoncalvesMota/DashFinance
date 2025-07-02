@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Box,
   Button,
@@ -13,22 +13,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-import type { IUser } from "../../interfaces/IUsers";
-import { useNavigate } from "react-router-dom";
-
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"light" | "dark">("light");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const authUser = localStorage.getItem("authUser");
-    if (authUser) {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
-
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const theme = useMemo(
     () =>
@@ -40,30 +29,53 @@ const Login = () => {
     [mode]
   );
 
-  const handleLogin = () => {
-    const verifyLogin = async () => {
-      try {
-        const res = await fetch("http://localhost:3001/users?email=" + email + "&senha=" + password);
-        const data: IUser[] = await res.json();
-        if (data) {
-          localStorage.setItem("authUser", data[0].id);
-          navigate("/dashboard/" + data[0].id);
-        }
-        else {
-          alert("Usuário ou senha incorretos!");
-        }
-      }
-      catch (error) {
-        console.error("Erro:", error);
-      }
-    }
-
-    verifyLogin();
-
-  };
-
   const toggleTheme = () => {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  const handleRecover = async () => {
+    if (!email || !password || !confirmPassword) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem.");
+      return;
+    }
+
+    try {
+      const resGet = await fetch(`http://localhost:3001/users?email=${email}`);
+      const users = await resGet.json();
+
+      if (users.length === 0) {
+        alert("Usuário não encontrado.");
+        return;
+      }
+
+      const userId = users[0].id;
+
+      const resPut = await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...users[0], 
+          password: password,
+        }),
+      });
+
+      if (resPut.ok) {
+        alert("Senha alterada com sucesso!");
+        window.location.href = "/login";
+      } else {
+        alert("Erro ao alterar a senha. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao alterar a senha:", error);
+      alert("Erro ao alterar a senha.");
+    }
   };
 
   return (
@@ -80,7 +92,6 @@ const Login = () => {
           position: "relative",
         }}
       >
-        {/* Botão de alternar tema */}
         <IconButton
           onClick={toggleTheme}
           sx={{ position: "absolute", top: 16, right: 16 }}
@@ -100,10 +111,10 @@ const Login = () => {
         >
           <Box sx={{ textAlign: "center", mb: 3 }}>
             <Typography variant="h5" fontWeight={600}>
-              Bem-vindo
+              Recuperar Senha
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Faça login para continuar
+              Informe seu e-mail para redefinir sua senha
             </Typography>
           </Box>
 
@@ -112,17 +123,30 @@ const Login = () => {
               fullWidth
               label="Email"
               margin="normal"
-              value={email || ""}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+
             <TextField
               fullWidth
-              label="Senha"
+              label="Nova Senha"
               type="password"
               margin="normal"
-              value={password || ""}
+              placeholder="Digite sua nova senha"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <TextField
+              fullWidth
+              label="Confirmar Senha"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              margin="normal"
+              placeholder="Confirme sua nova senha"
               required
             />
 
@@ -131,36 +155,22 @@ const Login = () => {
               variant="contained"
               color="primary"
               sx={{ mt: 3 }}
-              onClick={handleLogin}
+              onClick={handleRecover}
             >
-              Entrar
+              Alterar Senha
             </Button>
             <Typography
               variant="body2"
               color="text.secondary"
               sx={{ mt: 2, textAlign: "center" }}
             >
-              Não tem uma conta?{" "}
+              Lembrou sua senha?{" "}
               <Button
                 color="primary"
-                onClick={() => navigate("/register")}
+                href="/login"
                 sx={{ textTransform: "none" }}
               >
-                Cadastre-se
-              </Button>
-            </Typography>
-            {/* Crie uma opçao de "Esqueceu a Senha" */}
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ mt: 1, textAlign: "center" }}
-            >
-              <Button
-                color="primary"
-                onClick={() => navigate("/forgot-password")}
-                sx={{ textTransform: "none" }}
-              >
-                Esqueceu a Senha?
+                Voltar para Login
               </Button>
             </Typography>
           </CardContent>
@@ -170,4 +180,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

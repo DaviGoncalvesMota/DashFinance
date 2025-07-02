@@ -5,20 +5,21 @@ import { useState } from "react";
 import type { Dayjs } from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const isAuthenticated = () => {
-  const navigate = useNavigate();
-  if (!!localStorage.getItem("authUser")) {
-    navigate("/login");
-  };
-  return true
-};
-
 const InsertCosts = () => {
+  const IsAuthenticated = () => {
+    const navigate = useNavigate();
+    if (!localStorage.getItem("authUser")) {
+      navigate("/login");
+    }
+    return true;
+  };
+
+  IsAuthenticated();
 
   const params = useParams().id;
 
-  const userId = params
-  
+  const userId = params;
+
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [cost, setCost] = useState<number>(0);
@@ -47,7 +48,7 @@ const InsertCosts = () => {
       date: date ? date.format("DD-MM-YYYY") : null,
       moveType,
       category,
-      userId
+      userId,
     };
 
     const res = await fetch("http://localhost:3001/products", {
@@ -68,7 +69,7 @@ const InsertCosts = () => {
       setPayment("");
       setConstant("");
       setDate(null);
-      setMoveType("")
+      setMoveType("");
       setCategory("");
     } else {
       alert("Erro ao cadastrar movimento.");

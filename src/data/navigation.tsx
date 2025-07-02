@@ -1,17 +1,9 @@
 import { type Navigation } from '@toolpad/core/AppProvider';
 import { Dashboard, BarChart, TableChart, AttachMoney, AccountCircle } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-
-export const isAuthenticated = () => {
-  const navigate = useNavigate();
-  if (!!localStorage.getItem("authUser")) {
-    navigate("/login");
-  };
-  return true
-};
 
 export const getNavigation = (): Navigation => {
-  const id = localStorage.getItem("authUser");
+  const idStr = localStorage.getItem("authUser");
+  const id = idStr && !isNaN(Number(idStr)) ? Number(idStr) : undefined;
 
   return [
     {
@@ -19,12 +11,12 @@ export const getNavigation = (): Navigation => {
       title: 'Main items',
     },
     {
-      segment: 'dashboard/' + id,
+      segment: 'dashboard/' + (id ?? ''),
       title: 'Dashboard',
       icon: <Dashboard />,
     },
     {
-      segment: 'table/' + id,
+      segment: 'table/' + (id ?? ''),
       title: 'Tabela',
       icon: <TableChart />,
     },
@@ -37,7 +29,7 @@ export const getNavigation = (): Navigation => {
       icon: <BarChart />,
     },
     {
-      segment: 'insertmoves/' + id,
+      segment: 'insertmoves/' + (id ?? ''),
       title: 'Movimentações',
       icon: <AttachMoney />,
     },
@@ -45,7 +37,7 @@ export const getNavigation = (): Navigation => {
       kind: 'divider',
     },
     {
-      segment: 'profile/' + id,
+      segment: 'profile/' + (id ?? ''),
       title: 'Perfil',
       icon: <AccountCircle />,
     }
