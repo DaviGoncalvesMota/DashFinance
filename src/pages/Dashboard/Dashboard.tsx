@@ -19,6 +19,11 @@ const Dashboard = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
   const params = useParams().id;
 
+  const today = new Date();
+  const currentYear = today.getFullYear();
+
+  const december = today.getMonth() === 11 && today.getFullYear() === currentYear;
+
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(
@@ -176,6 +181,14 @@ const Dashboard = () => {
         Dashboard
       </Typography>
 
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{ mb: 4}}
+      >
+        Conforme os cadastros vão sendo feitos, as Dashboards vão sendo criadas
+      </Typography>
+
       <Box sx={{ p: 4 }}>
         {/* Valor total de entradas */}
         <Paper
@@ -217,7 +230,6 @@ const Dashboard = () => {
           </Typography>
         </Paper>
 
-        {/* Gráficos de pizza */}
         <Box
           sx={{
             display: "flex",
@@ -227,138 +239,119 @@ const Dashboard = () => {
             mb: 6,
           }}
         >
-          <Paper
-            elevation={2}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              width: 320,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Saídas
-            </Typography>
-            {productsSaida.length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: productsSaida.map((product) => ({
-                      id: product.id,
-                      value: product.cost,
-                      label: product.name,
-                    })),
-                    highlightScope: { fade: "global", highlight: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
-                  },
-                ]}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Não há saídas registradas.
+          {productsSaida.length > 0 && (
+            <Paper
+              elevation={2}
+              sx={{
+                p: 2,
+                borderRadius: 2,
+                width: 320,
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="h6" gutterBottom>
+                Saídas
               </Typography>
-            )}
-          </Paper>
+              {productsSaida.length > 0 ? (
+                <PieChart
+                  series={[
+                    {
+                      data: productsSaida.map((product) => ({
+                        id: product.id,
+                        value: product.cost,
+                        label: product.name,
+                      })),
+                      highlightScope: { fade: "global", highlight: "item" },
+                      faded: {
+                        innerRadius: 30,
+                        additionalRadius: -30,
+                        color: "gray",
+                      },
+                    },
+                  ]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  Não há saídas registradas.
+                </Typography>
+              )}
+            </Paper>
+          )}
 
-          <Paper
-            elevation={2}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              width: 320,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Entradas
-            </Typography>
-            {productsEntrada.length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: productsEntrada.map((product) => ({
-                      id: product.id,
-                      value: product.cost,
-                      label: product.name,
-                    })),
-                    highlightScope: { fade: "global", highlight: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
-                  },
-                ]}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Não há entradas registradas.
+          {productsEntrada.length > 0 && (
+            <Paper
+              elevation={2}
+              sx={{
+                p: 2,
+                borderRadius: 2,
+                width: 320,
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="h6" gutterBottom>
+                Entradas
               </Typography>
-            )}
-          </Paper>
+              {productsEntrada.length > 0 ? (
+                <PieChart
+                  series={[
+                    {
+                      data: productsEntrada.map((product) => ({
+                        id: product.id,
+                        value: product.cost,
+                        label: product.name,
+                      })),
+                      highlightScope: { fade: "global", highlight: "item" },
+                      faded: {
+                        innerRadius: 30,
+                        additionalRadius: -30,
+                        color: "gray",
+                      },
+                    },
+                  ]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  Não há entradas registradas.
+                </Typography>
+              )}
+            </Paper>
+          )}
+
         </Box>
 
         {/* Gráfico de Barras */}
-        <Paper sx={{ mb: 6, p: 2, borderRadius: 3 }} elevation={2}>
-          <Typography variant="h6" textAlign="center" gutterBottom>
-            Entradas vs Saídas por Mês
-          </Typography>
-          <BarChart
-            dataset={dataset}
-            xAxis={[{ dataKey: "month" }]}
-            series={[
-              { dataKey: "expense", label: "Saída" },
-              { dataKey: "receive", label: "Entrada" },
-            ]}
-            {...chartSetting}
-          />
-        </Paper>
-
-        {/* Gráfico de Radar */}
-        <Paper sx={{ p: 2, borderRadius: 3 }} elevation={2}>
-          <Typography variant="h6" textAlign="center" gutterBottom>
-            Categorias mais recorrentes nas Saídas
-          </Typography>
-          {radarMetricsSale.length >= 3 ? (
-            <RadarChart
-              height={300}
-              series={radarSeriesSale}
-              radar={{
-                metrics: radarMetricsSale,
-              }}
-            />
-          ) : (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              textAlign="center"
-            >
-              Não há categorias suficientes para exibir o gráfico de radar.
+        {products.length > 0 && (
+          <Paper sx={{ mb: 6, p: 2, borderRadius: 3 }} elevation={2}>
+            <Typography variant="h6" textAlign="center" gutterBottom>
+              Entradas vs Saídas por Mês
             </Typography>
-          )}
-        </Paper>
+            <BarChart
+              dataset={dataset}
+              xAxis={[{ dataKey: "month" }]}
+              series={[
+                { dataKey: "expense", label: "Saída" },
+                { dataKey: "receive", label: "Entrada" },
+              ]}
+              {...chartSetting}
+            />
+          </Paper>
+        )}
 
-        {/* Gráfico de Radar */}
-
-        <Box sx={{ mb: 6, mt: 6 }}>
+        {productsSaida.filter((p) => p.category).length > 3 && (
           <Paper sx={{ p: 2, borderRadius: 3 }} elevation={2}>
             <Typography variant="h6" textAlign="center" gutterBottom>
-              Categorias mais recorrentes nas Entradas
+              Categorias mais recorrentes nas Saídas
             </Typography>
-            {radarMetricsEnter.length >= 3 ? (
+            {radarMetricsSale.length >= 3 ? (
               <RadarChart
                 height={300}
-                series={radarSeriesEnter}
+                series={radarSeriesSale}
                 radar={{
-                  metrics: radarMetricsEnter,
+                  metrics: radarMetricsSale,
                 }}
               />
             ) : (
@@ -371,9 +364,36 @@ const Dashboard = () => {
               </Typography>
             )}
           </Paper>
-        </Box>
+        )}
 
-        {/* Gráfico de Linhas */}
+        {productsEntrada.filter((p) => p.category).length > 3 && (
+          <Box sx={{ mb: 6, mt: 6 }}>
+            <Paper sx={{ p: 2, borderRadius: 3 }} elevation={2}>
+              <Typography variant="h6" textAlign="center" gutterBottom>
+                Categorias mais recorrentes nas Entradas
+              </Typography>
+              {radarMetricsEnter.length >= 3 ? (
+                <RadarChart
+                  height={300}
+                  series={radarSeriesEnter}
+                  radar={{
+                    metrics: radarMetricsEnter,
+                  }}
+                />
+              ) : (
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  textAlign="center"
+                >
+                  Não há categorias suficientes para exibir o gráfico de radar.
+                </Typography>
+              )}
+            </Paper>
+          </Box>
+        )}
+
+        {/* Gráficos de pagamento - Saídas e Entradas */}
         <Box
           sx={{
             display: "flex",
@@ -384,137 +404,143 @@ const Dashboard = () => {
             mt: 6,
           }}
         >
-          <Paper
-            elevation={2}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              width: 320,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              PIX
-            </Typography>
-            {productsSaida.filter((product) => product.payment === "Pix")
-              .length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: productsSaida
-                      .filter((product) => product.payment === "Pix")
-                      .map((product) => ({
-                        id: product.id,
-                        value: product.cost,
-                        label: product.name,
-                      })),
+          {productsSaida.filter((p) => p.payment === "Pix").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Saídas - PIX</Typography>
+              {productsSaida.filter((p) => p.payment === "Pix").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsSaida.filter(p => p.payment === "Pix").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
                     highlightScope: { fade: "global", highlight: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
-                  },
-                ]}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Não há pagamentos via PIX registrados.
-              </Typography>
-            )}
-          </Paper>
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma saída via PIX.</Typography>
+              )}
+            </Paper>
+          )}
 
-          <Paper
-            elevation={2}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              width: 320,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Cartão de Crédito
-            </Typography>
-            {productsSaida.filter(
-              (product) => product.payment === "Cartão de Crédito"
-            ).length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: productsSaida
-                      .filter(
-                        (product) => product.payment === "Cartão de Crédito"
-                      )
-                      .map((product) => ({
-                        id: product.id,
-                        value: product.cost,
-                        label: product.name,
-                      })),
+          {productsSaida.filter((p) => p.payment === "Cartão de Débito").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Saídas - Débito</Typography>
+              {productsSaida.filter((p) => p.payment === "Cartão de Débito").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsSaida.filter(p => p.payment === "Cartão de Débito").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
                     highlightScope: { fade: "global", highlight: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
-                  },
-                ]}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Não há pagamentos via Cartão de Crédito registrados.
-              </Typography>
-            )}
-          </Paper>
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma saída via Débito.</Typography>
+              )}
+            </Paper>
+          )}
 
-          <Paper
-            elevation={2}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              width: 320,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Cartão de Débito
-            </Typography>
-            {productsSaida.filter(
-              (product) => product.payment === "Cartão de Débito"
-            ).length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: productsSaida
-                      .filter(
-                        (product) => product.payment === "Cartão de Débito"
-                      )
-                      .map((product) => ({
-                        id: product.id,
-                        value: product.cost,
-                        label: product.name,
-                      })),
+          {productsSaida.filter((p) => p.payment === "Cartão de Crédito").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Saídas - Crédito</Typography>
+              {productsSaida.filter((p) => p.payment === "Cartão de Crédito").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsSaida.filter(p => p.payment === "Cartão de Crédito").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
                     highlightScope: { fade: "global", highlight: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
-                  },
-                ]}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                Não há pagamentos via Cartão de Débito registrados.
-              </Typography>
-            )}
-          </Paper>
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma saída via Crédito.</Typography>
+              )}
+            </Paper>
+          )}
+
+          {productsEntrada.filter((p) => p.payment === "Pix").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Entradas - PIX</Typography>
+              {productsEntrada.filter((p) => p.payment === "Pix").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsEntrada.filter(p => p.payment === "Pix").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
+                    highlightScope: { fade: "global", highlight: "item" },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma entrada via Pix.</Typography>
+              )}
+            </Paper>
+          )}
+
+          {productsEntrada.filter((p) => p.payment === "Cartão de Débito").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Entradas - Débito</Typography>
+              {productsEntrada.filter((p) => p.payment === "Cartão de Débito").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsEntrada.filter(p => p.payment === "Cartão de Débito").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
+                    highlightScope: { fade: "global", highlight: "item" },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma entrada via Débito.</Typography>
+              )}
+            </Paper>
+          )}
+
+          {productsEntrada.filter((p) => p.payment === "Cartão de Crédito").length > 0 && (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 320, textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>Entradas - Crédito</Typography>
+              {productsEntrada.filter((p) => p.payment === "Cartão de Crédito").length > 0 ? (
+                <PieChart
+                  series={[{
+                    data: productsEntrada.filter(p => p.payment === "Cartão de Crédito").map((p) => ({
+                      id: p.id,
+                      value: p.cost,
+                      label: p.name,
+                    })),
+                    highlightScope: { fade: "global", highlight: "item" },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+                  }]}
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">Nenhuma entrada via Crédito.</Typography>
+              )}
+            </Paper>
+          )}
         </Box>
         <Box
           sx={{
@@ -526,30 +552,22 @@ const Dashboard = () => {
             mt: 6,
           }}
         >
-          <Paper
-            sx={{ mb: 6, p: 4, borderRadius: 3, width: "90%" }}
-            elevation={2}
-          >
-            <Typography variant="h5" textAlign="center" gutterBottom>
-              Despesas por Ano
-            </Typography>
-            {years.length === 0 ? (
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                textAlign="center"
-              >
-                Não há despesas registradas para exibir.
+          {years.length > 0 && december && (
+            <Paper
+              sx={{ mb: 6, p: 4, borderRadius: 3, width: "90%" }}
+              elevation={2}
+            >
+              <Typography variant="h5" textAlign="center" gutterBottom>
+                Despesas por Ano
               </Typography>
-            ) : (
               <LineChart
                 xAxis={[{ data: years }]}
                 series={[{ data: values }]}
                 height={400}
                 width={800}
               />
-            )}
-          </Paper>
+            </Paper>
+          )}
         </Box>
       </Box>
     </>
