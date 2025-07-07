@@ -24,7 +24,7 @@ export const getNavigation = (): Navigation => {
       kind: 'divider',
     },
     {
-      segment: 'about',
+      segment: 'about/' + (id ?? ''),
       title: 'Sobre',
       icon: <BarChart />,
     },

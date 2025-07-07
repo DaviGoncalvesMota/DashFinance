@@ -204,7 +204,7 @@ const Forms = ({
               onChange={(e) => setPayment(e.target.value)}
               label="Pagamento"
             >
-              <MenuItem value="Pix">Pix</MenuItem>
+              <MenuItem value="Pix"> Pix </MenuItem>
               <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
               <MenuItem value="Cartão de Débito">Cartão de Débito</MenuItem>
             </Select>

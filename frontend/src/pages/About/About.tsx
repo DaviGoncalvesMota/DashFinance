@@ -1,7 +1,19 @@
 import { Box, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const About = () => {
+  const IsAuthenticated = () => {
+    const navigate = useNavigate();
+    if (!localStorage.getItem("authUser")) {
+      navigate("/login");
+    }
+    return true;
+  };
+
+  IsAuthenticated();
+
+  const params = useParams().id;
+
   return (
     <>
       <Box width={{ width: "70%" }} mx="auto" my={4}>
@@ -20,7 +32,7 @@ const About = () => {
           dedicação, aprendizados constantes e o desejo de ajudar outras pessoas
           a cuidarem melhor do próprio dinheiro.
         </p>
-        <Link to="/dashboard">
+        <Link to={`/dashboard/` + params}>
           <Button variant="contained">Ir para Dashboard</Button>
         </Link>
       </Box>

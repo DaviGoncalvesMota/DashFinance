@@ -15,12 +15,12 @@ import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 const AllRoutes = () => {
   return (
     <>
-      <Routes>
+      <Routes>  
         <Route path="/" element={<App />}>
           <Route index element={<PrivateRoutes><Home /></PrivateRoutes>} />
           <Route path="/insertmoves/:id" element={<PrivateRoutes><InsertFinanceMoves /></PrivateRoutes>} />
           <Route path="/table/:id" element={<PrivateRoutes><Table /></PrivateRoutes>} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about/:id" element={<About />} />
           <Route path="/dashboard/:id" element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
           <Route path="/profile/:id" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
         </Route>

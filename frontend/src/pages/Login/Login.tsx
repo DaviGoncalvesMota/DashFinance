@@ -45,11 +45,12 @@ const Login = () => {
       try {
         const res = await fetch("http://localhost:3001/users?email=" + email + "&senha=" + password);
         const data: IUser[] = await res.json();
-        if (data) {
+        if (data.length > 0) {
           localStorage.setItem("authUser", data[0].id);
           navigate("/dashboard/" + data[0].id);
         }
         else {
+          localStorage.removeItem("authUser");
           alert("Usuário ou senha incorretos!");
         }
       }
