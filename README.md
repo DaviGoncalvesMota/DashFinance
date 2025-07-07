@@ -56,7 +56,6 @@ Este projeto visa resolver o problema da **falta de controle financeiro**, ofere
 ## 🚀 Como executar
 
 > Como o projeto ainda está em desenvolvimento, o passo a passo de instalação será adicionado em breve.  
-> Por enquanto, certifique-se de que possui os pré-requisitos acima instalados para contribuir ou testar localmente.
 
 ---
 
