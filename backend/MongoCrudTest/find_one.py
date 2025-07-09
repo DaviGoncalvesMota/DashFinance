@@ -1,6 +1,8 @@
 import os
+import pprint
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 # Carrega o .env
 load_dotenv() 
@@ -14,11 +16,17 @@ string_connection = f"mongodb+srv://davigmota:{senha}@cluster2703.tta3rpo.mongod
 # instancia o client com a string connection
 client = MongoClient(string_connection)
 
-try:
-    # lista os nomes dos bancos
-    for db in client.list_database_names():
-        print("Banco:", db)
-except Exception as e:
-    print("Erro:", e)
-# fecha a instância
+# pega o banco
+db = client.DashFinance
+
+# pega a coleção de usuários
+users_collection = db.Users
+
+# id a ser encontrado
+document_to_find = {"_id": ObjectId("686d54b8e6db87c6228be896")}
+
+# comando para buscar o id
+res = users_collection.find_one(document_to_find)
+pprint.pprint(res)
+
 client.close()
