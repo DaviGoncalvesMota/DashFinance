@@ -28,7 +28,6 @@ new_user = {
     "bio": "Desenvolvedor Full Stack",
     "phone": "11953304291",
     "avatar": "https://media.istockphoto.com/id/1975733603/pt/foto/cross-with-robe-and-crown-of-thorns-on-hill-at-sunset-calvary-and-resurrection-concept.jpg?s=612x612&w=0&k=20&c=xiuUm1n3GBK6uhWzlYLHb8dLYwdfNc0yZuCvmom3s3Q=",
-    "id": "1"
 }
 
 # comando para inserir documento da coleção
