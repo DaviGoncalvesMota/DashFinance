@@ -36,22 +36,3 @@ def get_user_by_id(user_id: str):
             raise HTTPException(status_code=404, detail="Usuário não encontrado")
     except:
         raise HTTPException(status_code=400, detail="ID falhou")
-
-
-# def get_all_users(_id: str = Query(None)):
-#     if _id:
-#         try:
-#             collection.find_one({"_id": ObjectId(_id)})
-#             if user:
-#                 user["_id"] = str(user["_id"])
-#                 return user
-#             else:
-#                 raise HTTPException(status_code=404, detail="Usuário não encontrado")
-#         except:
-#             raise HTTPException(status_code=400, detail="ID Inválido")
-#     else:
-#         users = []
-#         for user in collection.find({}):
-#             user["_id"] = str(user["_id"])
-#             users.append(user)
-#         return users
