@@ -2,17 +2,17 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-# Carrega o .env
+# load the .env
 load_dotenv() 
 
-# usa a lib OS para pega o env
-senha = os.getenv("MONGO_PASS")
+# use os lib to get the env
+password = os.getenv("MONGO_PASS")
 
-# String de conexão com o DB
-string_connection = f"mongodb+srv://davigmota:{senha}@cluster2703.tta3rpo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2703"
+# connection string with database
+connection_string  = f"mongodb+srv://davigmota:{password}@cluster2703.tta3rpo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2703"
 
-# instancia o client com a string connection
-client = MongoClient(string_connection)
+# instance the client with connection string 
+client = MongoClient(connection_string)
 
 try:
     # lista os nomes dos bancos
