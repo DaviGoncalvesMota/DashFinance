@@ -40,6 +40,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
   useEffect(() => {
     if (!id) return;
     const fetchProducts = async () => {
+      // GET PRODUCT BY ID
       const res = await fetch(`http://localhost:3001/products/${id}`);
       const data = await res.json();
       setName(data.name);
@@ -53,6 +54,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
       setCategory(data.category);
     };
 
+    // GET USER BY ID
     const fetchUser = async () => {
       const res = await fetch(`http://localhost:3001/users/${id}`);
       const data = await res.json();
@@ -86,6 +88,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
       };
 
       try {
+        // UPDATE USER
         const response = await fetch(`http://localhost:3001/users/${id}`, {
           method: "PUT",
           headers: {
@@ -109,7 +112,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
     }
 
     if (label === "Produtos") {
-      const updatedUser = {
+      const updateProduct = {
         name,
         desc,
         cost,
@@ -122,12 +125,13 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
       };
 
       try {
+        // UPDATE PRODUCT
         const response = await fetch(`http://localhost:3001/products/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedUser),
+          body: JSON.stringify(updateProduct),
         });
 
         if (!response.ok) {
@@ -191,7 +195,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
               setUserPhone={setUserPhone}
               avatar={avatar}
               setAvatar={setAvatar}
-              label={label ?? ""} // Adjust label as needed
+              label={label ?? ""}
             />
           </Stack>
         </FormControl>

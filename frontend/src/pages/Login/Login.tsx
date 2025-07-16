@@ -43,6 +43,7 @@ const Login = () => {
   const handleLogin = () => {
     const verifyLogin = async () => {
       try {
+        // FIND USER BY EMAIL AND PASSWORD
         const res = await fetch("http://localhost:3001/users?email=" + email + "&senha=" + password);
         const data: IUser[] = await res.json();
         if (data.length > 0) {

@@ -28,6 +28,27 @@ class UserModel(BaseModel):
     phone: str
     avatar: str
 
+class ProductModel(BaseModel):
+    name: str
+    desc: str
+    cost: float
+    place: str
+    payment: str
+    constant: str
+    date: datetime
+    moveType: str
+    category: str
+    userId: str
+
+@app.get("/")
+def connection_test():
+    try:
+        # lista os nomes dos bancos
+        for db in client.list_database_names():
+           return {"banco": f"".join(db)}
+    except:
+        raise HTTPException(status_code=400, detail="Conexão falhou!!")
+
 # get all users
 @app.get("/users")
 def get_all_users():   
@@ -99,15 +120,93 @@ def get_all_products():
             product["_id"] = str(product["_id"])
             # we always need the field value of the specified product
             for key, value in product.items():
-                # we pass 2 params in instance (value, primitive type that will be converted)
+                # we passed 2 params in instance (value, primitive type that will be converted)
                 if isinstance(value, Decimal128):
-                    # we apply the product key and later we use the convert functions
+                    # we applied the product key and we use the convert functions later
                     product[key] = float(value.to_decimal())
-                # we pass 2 params in instance (value, primitive type that will be converted)
+                # we passed 2 params in instance (value, primitive type that will be converted)
                 elif isinstance(value, datetime):
-                    # we apply the product key and later we use the convert functions
+                    # we applied the product key and we use the convert functions later
                     product[key] = value.isoformat()
             products.append(product)
         return products
     except:
         raise HTTPException(status_code=500, detail="Erro ao buscar produtos")
+    
+# get product by id
+@app.get("/products/{product_id}")
+def get_product_by_id(product_id: str):
+    # strip command allow us to exclude all breaklines
+    product_id = product_id.strip()
+    try:
+        # always you want to find an object, dont forget to use ObjectId from bson
+        product = products_collection.find_one({"_id": ObjectId(product_id)})
+        # we always need the field value of the specified product
+        for key, value in product.items():
+            # we passed 2 params in instance (value, primitive type that will be converted)
+            if isinstance(value, Decimal128):
+                # we applied the product key and we use the convert functions later
+                product[key] = float(value.to_decimal())
+            # we passed 2 params in instance (value, primitive type that will be converted)
+            elif isinstance(value, datetime):
+                # we applied the product key and we use the convert functions later
+                product[key] = value.isoformat()    
+        if product:
+            # convert to string, JSON cant read ObjectId, just primitive values, like strings, integers, floats, numbers, boolean and beyond
+            product["_id"] = str(product["_id"])
+            return product 
+        else:
+            raise HTTPException(status_code=404, detail="Produto não encontrado")
+    except:
+        raise HTTPException(status_code=400, detail="ID falhou")
+    
+# include user
+@app.post("/products")
+def create_product(product: ProductModel):
+    try:
+        # every time you have to insert the user, you will need to convert to a dictionary using model dump
+        inserted_product = products_collection.insert_one(product.model_dump())
+        if inserted_product:
+            # when you will insert the user, just return the user id 
+            return {"inserted_id": str(inserted_product.inserted_id)}
+        else:
+            raise HTTPException(status_code=404, detail="Produto náo foi inserido corretamente")
+    except:
+        raise HTTPException(status_code=400, detail="Nem tentou inserir")
+    
+@app.put("/products/{product_id}")
+def update_products(product_id: str, product: ProductModel):
+    # the first thing to do when you are receiving an id, is delete all the breaklines and spaces
+    product_id = product_id.strip()
+    try:
+        # we need to filter the document that we want to update by using his id
+        document_to_update = {"_id": ObjectId(product_id)}
+        if document_to_update:
+            items_to_update = {"$set": product.model_dump()}
+             # and then we pass the document and the updates as params
+            products_collection.update_one(document_to_update, items_to_update)
+            # convert to string because json cant read ObjectId
+            return str(document_to_update)
+        else:
+            raise HTTPException(status_code=404, detail="Produto não foi preenchido corretamete")
+    except:
+        raise HTTPException(status_code=400, detail="Tentativa errada, tente novamente")
+
+@app.delete("/products/{product_id}")
+def delete_products(product_id: str):
+    # the first thing to do when you are receiving an id, is delete all the breaklines and spaces
+    product_id = product_id.strip()
+    try:
+        # we need to filter the document that we want to delete by using his id
+        document_to_delete = {"_id": ObjectId(product_id)}
+        if document_to_delete:
+            # delete the found document
+            res = products_collection.delete_one(document_to_delete)
+            # return the count of documents deleted
+            return {"deleted documents": str(res.deleted_count)}
+        else:
+            raise HTTPException(status_code=404, detail="Produto não encontrado")
+    except:
+        raise HTTPException(status_code=400, detail="a requisição falhou")
+
+    

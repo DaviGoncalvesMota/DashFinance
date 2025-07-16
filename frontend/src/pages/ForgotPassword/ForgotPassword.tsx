@@ -45,6 +45,7 @@ const ForgotPassword = () => {
     }
 
     try {
+      // FIND USER BY EMAIL
       const resGet = await fetch(`http://localhost:3001/users?email=${email}`);
       const users = await resGet.json();
 
@@ -55,6 +56,7 @@ const ForgotPassword = () => {
 
       const userId = users[0].id;
 
+      // FORGOT PASSWORD
       const resPut = await fetch(`http://localhost:3001/users/${userId}`, {
         method: "PUT",
         headers: {
