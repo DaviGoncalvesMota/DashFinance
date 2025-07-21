@@ -44,7 +44,7 @@ const Table = () => {
     const fetchItens = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3001/products?userId=" + params
+          "http://127.0.0.1:8000/products/findbyuserid/" + params
         );
         const data: IProducts[] = await res.json();
         setItems(data);
@@ -57,7 +57,7 @@ const Table = () => {
 
   const deleteItem = async (id: string) => {
     try {
-      await fetch("http://localhost:3001/products/" + id, {
+      await fetch("http://127.0.0.1:8000/products/" + id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -118,7 +118,7 @@ const Table = () => {
   const renderRows = (list: IProducts[]) =>
     list.map((item) => (
       <TableRow
-        key={item.id}
+        key={item._id}
         hover
         sx={{ "&:hover": { backgroundColor: "#fafafa" } }}
       >
@@ -143,7 +143,7 @@ const Table = () => {
               setDialog(
                 <Dialog
                   onClose={() => setDialog(undefined)}
-                  id={item.id}
+                  id={item._id}
                   label="Produtos"
                 />
               )
@@ -151,7 +151,7 @@ const Table = () => {
           >
             <Edit />
           </IconButton>
-          <IconButton onClick={() => deleteItem(item.id)}>
+          <IconButton onClick={() => deleteItem(item._id)}>
             <Delete />
           </IconButton>
         </TableCell>

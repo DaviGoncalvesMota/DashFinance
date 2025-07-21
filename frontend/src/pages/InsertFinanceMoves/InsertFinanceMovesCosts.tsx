@@ -45,13 +45,13 @@ const InsertCosts = () => {
       place,
       payment,
       constant,
-      date: date ? date.format("DD-MM-YYYY") : null,
+      date: date && date.isValid() ? date.format("YYYY-MM-DD") : null,
       moveType,
       category,
       userId,
     };
 
-    const res = await fetch("http://localhost:3001/products", {
+    const res = await fetch("http://127.0.0.1:8000/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,6 +73,7 @@ const InsertCosts = () => {
       setCategory("");
     } else {
       alert("Erro ao cadastrar movimento.");
+      console.error("Error:", data);
     }
   };
 

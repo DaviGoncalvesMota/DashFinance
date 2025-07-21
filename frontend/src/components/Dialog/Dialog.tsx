@@ -29,6 +29,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
   const [date, setDate] = useState<Dayjs | null>(null);
   const [moveType, setMoveType] = useState("");
   const [category, setCategory] = useState("");
+  const [userId, setUserId] = useState("");
 
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -41,7 +42,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
     if (!id) return;
     const fetchProducts = async () => {
       // GET PRODUCT BY ID
-      const res = await fetch(`http://localhost:3001/products/${id}`);
+      const res = await fetch(`http://127.0.0.1:8000/products/${id}`);
       const data = await res.json();
       setName(data.name);
       setDesc(data.desc);
@@ -49,14 +50,15 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
       setPlace(data.place);
       setPayment(data.payment);
       setConstant(data.constant);
-      setDate(data.date ? dayjs(data.date, "DD-MM-YYYY") : null);
+      setDate(data.date ? dayjs(data.date, "YYYY-MM-DD") : null);
       setMoveType(data.moveType);
       setCategory(data.category);
+      setUserId(data.userId);
     };
 
     // GET USER BY ID
     const fetchUser = async () => {
-      const res = await fetch(`http://localhost:3001/users/${id}`);
+      const res = await fetch(`http://127.0.0.1:8000/users/${id}`);
       const data = await res.json();
       setUserName(data.name);
       setUserEmail(data.email);
@@ -89,7 +91,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
 
       try {
         // UPDATE USER
-        const response = await fetch(`http://localhost:3001/users/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/users/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -119,14 +121,15 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
         place,
         payment,
         constant,
-        date: date ? date.format("DD-MM-YYYY") : null,
+        date: date && date.isValid() ? date.format("YYYY-MM-DD") : null,
         moveType,
         category,
+        userId,
       };
 
       try {
         // UPDATE PRODUCT
-        const response = await fetch(`http://localhost:3001/products/${id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/products/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -183,6 +186,7 @@ const Dialog = ({ onClose, id, label }: IDialogProps) => {
               setMoveType={setMoveType}
               category={category}
               setCategory={setCategory}
+              userId={userId}
               userName={userName}
               setUserName={setUserName}
               userEmail={userEmail}

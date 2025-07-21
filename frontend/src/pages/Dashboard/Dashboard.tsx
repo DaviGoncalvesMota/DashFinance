@@ -27,7 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(
-        "http://localhost:3001/products?userId=" + params
+        "http://127.0.0.1:8000/products/findbyuserid/" + params
       );
       const data: IProducts[] = await response.json();
       setProducts(data);
@@ -257,7 +257,7 @@ const Dashboard = () => {
                   series={[
                     {
                       data: productsSaida.map((product) => ({
-                        id: product.id,
+                        id: product._id,
                         value: product.cost,
                         label: product.name,
                       })),
@@ -298,7 +298,7 @@ const Dashboard = () => {
                   series={[
                     {
                       data: productsEntrada.map((product) => ({
-                        id: product.id,
+                        id: product._id,
                         value: product.cost,
                         label: product.name,
                       })),
@@ -411,7 +411,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsSaida.filter(p => p.payment === "Pix").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),
@@ -434,7 +434,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsSaida.filter(p => p.payment === "Cartão de Débito").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),
@@ -457,7 +457,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsSaida.filter(p => p.payment === "Cartão de Crédito").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),
@@ -480,7 +480,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsEntrada.filter(p => p.payment === "Pix").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),
@@ -503,7 +503,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsEntrada.filter(p => p.payment === "Cartão de Débito").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),
@@ -526,7 +526,7 @@ const Dashboard = () => {
                 <PieChart
                   series={[{
                     data: productsEntrada.filter(p => p.payment === "Cartão de Crédito").map((p) => ({
-                      id: p.id,
+                      id: p._id,
                       value: p.cost,
                       label: p.name,
                     })),

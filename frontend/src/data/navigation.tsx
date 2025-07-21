@@ -1,9 +1,27 @@
-import { type Navigation } from '@toolpad/core/AppProvider';
-import { Dashboard, BarChart, TableChart, AttachMoney, AccountCircle } from '@mui/icons-material';
+import { AccountCircle, AttachMoney, BarChart, Dashboard, TableChart } from "@mui/icons-material";
+import type { JSX } from "react";
+
+// Define the Navigation type if not already defined or import it from its module
+type NavigationItem = {
+  kind?: 'header' | 'divider';
+  segment?: string;
+  title?: string;
+  icon?: JSX.Element;
+};
+
+type Navigation = NavigationItem[];
 
 export const getNavigation = (): Navigation => {
-  const idStr = localStorage.getItem("authUser");
-  const id = idStr && !isNaN(Number(idStr)) ? Number(idStr) : undefined;
+  const id = localStorage.getItem("authUser");
+
+  if (!id) {
+    return [
+      {
+        kind: 'header',
+        title: 'Carregando...',
+      }
+    ];
+  }
 
   return [
     {
@@ -11,12 +29,12 @@ export const getNavigation = (): Navigation => {
       title: 'Main items',
     },
     {
-      segment: 'dashboard/' + (id ?? ''),
+      segment: 'dashboard/' + id,
       title: 'Dashboard',
       icon: <Dashboard />,
     },
     {
-      segment: 'table/' + (id ?? ''),
+      segment: 'table/' + id,
       title: 'Tabela',
       icon: <TableChart />,
     },
@@ -24,12 +42,12 @@ export const getNavigation = (): Navigation => {
       kind: 'divider',
     },
     {
-      segment: 'about/' + (id ?? ''),
+      segment: 'about/' + id,
       title: 'Sobre',
       icon: <BarChart />,
     },
     {
-      segment: 'insertmoves/' + (id ?? ''),
+      segment: 'insertmoves/' + id,
       title: 'Movimentações',
       icon: <AttachMoney />,
     },
@@ -37,7 +55,7 @@ export const getNavigation = (): Navigation => {
       kind: 'divider',
     },
     {
-      segment: 'profile/' + (id ?? ''),
+      segment: 'profile/' + id,
       title: 'Perfil',
       icon: <AccountCircle />,
     }

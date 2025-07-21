@@ -46,7 +46,7 @@ const ForgotPassword = () => {
 
     try {
       // FIND USER BY EMAIL
-      const resGet = await fetch(`http://localhost:3001/users?email=${email}`);
+      const resGet = await fetch(`http://127.0.0.1:8000/users/finduserbyemail/${email}`);
       const users = await resGet.json();
 
       if (users.length === 0) {
@@ -54,10 +54,10 @@ const ForgotPassword = () => {
         return;
       }
 
-      const userId = users[0].id;
+      const userId = users._id;
 
       // FORGOT PASSWORD
-      const resPut = await fetch(`http://localhost:3001/users/${userId}`, {
+      const resPut = await fetch(`http://127.0.0.1:8000/users/forgotpassword/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

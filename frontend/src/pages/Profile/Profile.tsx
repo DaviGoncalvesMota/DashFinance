@@ -23,14 +23,14 @@ const Profile = () => {
 
   IsAuthenticated();
 
-  const [user, setUser] = useState<IUser[]>([]);
+  const [user, setUser] = useState<IUser>({} as IUser);
   const [dialog, setDialog] = useState<React.ReactNode>();
   const params = useParams().id;
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:3001/users?id=" + params);
-      const data: IUser[] = await response.json();
+      const response = await fetch("http://127.0.0.1:8000/users/" + params);
+      const data: IUser = await response.json();
       setUser(data);
     };
 
@@ -58,10 +58,8 @@ const Profile = () => {
             boxShadow: 6,
           }}
         >
-          {/* Cabeçalho */}
-          {user.map((user) => (
             <Card
-              key={user.id}
+              key={user._id}
               sx={{
                 maxWidth: 600,
                 width: "100%",
@@ -86,7 +84,7 @@ const Profile = () => {
                       <Dialog
                         onClose={() => setDialog(false)}
                         label="Usuários"
-                        id={user.id}
+                        id={user._id}
                       />
                     )
                   }
@@ -126,7 +124,6 @@ const Profile = () => {
                 </Box>
               </CardContent>
             </Card>
-          ))}
         </Card>
       </Box>
     </>
