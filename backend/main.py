@@ -1,4 +1,3 @@
-import traceback
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
@@ -8,6 +7,7 @@ from bson.decimal128 import Decimal128
 from datetime import date, datetime
 from pydantic import BaseModel
 import os
+from openai import OpenAI
 
 load_dotenv()
 
@@ -20,10 +20,12 @@ users_collection = db["Users"]
 products_collection = db["Products"]
 
 app = FastAPI()
+openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # front-end React
+   allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,6 +59,10 @@ class LoginData(BaseModel):
     email: str
     password: str
 
+class Ask(BaseModel):
+    ask: str
+    user_id: str
+    
 @app.get("/")
 def connection_test():
     try:
@@ -286,6 +292,7 @@ def forgot_password(user_id: str, new_password: PasswordModel):
         if document_to_update:
             # get the password model an set the new password on the passworld field
             password_update = {"$set": {"password": new_password.password}}
+            # update password
             users_collection.update_one(document_to_update, password_update)
             return str(document_to_update)
         else:
@@ -295,13 +302,60 @@ def forgot_password(user_id: str, new_password: PasswordModel):
     
 @app.post("/users/findbylogin")
 def login(data: LoginData):
+    # delete breaklines
     email = data.email.strip()
-    password = data.password.strip()
-    
+    password = data.password.strip()    
+    # find user by email and password
     user = users_collection.find_one({"email": email, "password": password})
-    
     if user:
+        # convert his object id to string
         user["_id"] = str(user["_id"])
         return user
     else:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+@app.post("/ia")
+async def ask(req: Ask):
+    products = list(products_collection.find({}))
+    users = list(users_collection.find({}))
+
+    for p in products:
+        p["_id"] = str(p["_id"])
+        if isinstance(p.get("date"), datetime):
+            p["date"] = p["date"].isoformat()
+
+    for u in users:
+        u["_id"] = str(u["_id"])
+    
+    user_products = [p for p in products if p.get("userId") == req.user_id]
+
+    prompt = f"""
+        Você é uma IA responsável por responder perguntas com base nos dados fornecidos.
+        Usuário logado tem o id: {req.user_id}
+        Cada usuário possui seus próprios produtos. Para associar corretamente:
+        O ID do usuário está no campo _id do objeto users.
+        Cada produto possui um campo userId, que indica a qual usuário ele pertence.
+        Regra de privacidade obrigatória:
+        Se perguntarem algo sobre um produto onde o id dele é diferente do userId, ou perguntarem coisas de outro usuário diga isso:
+        “Por questões de privacidade, não posso mostrar dados de outros usuários. Por favor, faça outra pergunta.”
+        Nunca exiba, calcule ou comente sobre dados de outros usuários. Sempre atenda apenas ao usuário logado.
+        mas se o usuário perguntar dos proprios produtos pode responder
+
+        Produtos:
+        {user_products}
+
+        Usuários:
+        {users}
+
+        Pergunta do usuário:
+        {req.ask}
+    """  
+
+
+    resposta = openai.chat.completions.create(
+        model="gpt-3.5-turbo-0125",
+        messages=[{ "role": "user", "content": prompt }],
+        temperature=0.7
+    )
+
+    return { "resposta": resposta.choices[0].message.content }

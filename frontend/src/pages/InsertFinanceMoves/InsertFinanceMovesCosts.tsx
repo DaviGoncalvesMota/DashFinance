@@ -18,7 +18,7 @@ const InsertCosts = () => {
 
   const params = useParams().id;
 
-  const userId = params;
+  const userId = params ?? "";
 
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");

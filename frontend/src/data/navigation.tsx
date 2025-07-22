@@ -1,4 +1,4 @@
-import { AccountCircle, AttachMoney, BarChart, Dashboard, TableChart } from "@mui/icons-material";
+import { AccountCircle, AttachMoney, BarChart, Dashboard, TableChart, SmartToy } from "@mui/icons-material";
 import type { JSX } from "react";
 
 // Define the Navigation type if not already defined or import it from its module
@@ -58,6 +58,11 @@ export const getNavigation = (): Navigation => {
       segment: 'profile/' + id,
       title: 'Perfil',
       icon: <AccountCircle />,
+    },
+    {
+      segment: 'ia/' + id,
+      title: 'IA',
+      icon: <SmartToy />, // Assuming you want to use the same icon, change if needed
     }
   ];
 };

@@ -11,6 +11,7 @@ import Home from "../pages/Home/Home";
 import InsertFinanceMoves from "../pages/InsertFinanceMoves/InsertFinanceMovesCosts";
 import PrivateRoutes from "../components/PrivateRoutes/PrivateRoutes";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import IA from "../pages/IA/IA";
 
 const AllRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AllRoutes = () => {
           <Route path="/about/:id" element={<About />} />
           <Route path="/dashboard/:id" element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
           <Route path="/profile/:id" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
+          <Route path="/ia/:id" element={<PrivateRoutes><IA /></PrivateRoutes>} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
