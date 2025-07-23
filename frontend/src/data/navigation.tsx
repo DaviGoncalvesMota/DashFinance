@@ -55,14 +55,14 @@ export const getNavigation = (): Navigation => {
       kind: 'divider',
     },
     {
+      segment: 'ia/' + id,
+      title: 'IA',
+      icon: <SmartToy />,
+    },
+    {
       segment: 'profile/' + id,
       title: 'Perfil',
       icon: <AccountCircle />,
     },
-    {
-      segment: 'ia/' + id,
-      title: 'IA',
-      icon: <SmartToy />, // Assuming you want to use the same icon, change if needed
-    }
   ];
 };

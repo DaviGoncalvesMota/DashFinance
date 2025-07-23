@@ -339,7 +339,7 @@ async def ask(req: Ask):
         Se perguntarem algo sobre um produto onde o id dele é diferente do userId, ou perguntarem coisas de outro usuário diga isso:
         “Por questões de privacidade, não posso mostrar dados de outros usuários. Por favor, faça outra pergunta.”
         Nunca exiba, calcule ou comente sobre dados de outros usuários. Sempre atenda apenas ao usuário logado.
-        mas se o usuário perguntar dos proprios produtos pode responder
+        mas se o usuário perguntar dos proprios produtos, das próprias saidas ou das próprias entradas pode responder
 
         Produtos:
         {user_products}
